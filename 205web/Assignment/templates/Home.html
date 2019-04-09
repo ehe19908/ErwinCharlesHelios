@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>N.Maker Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/default-skin/default-skin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Bitter:400,700,400italic' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe-ui-default.min.js"></script>
+<style>
+    body{
+      background-color: #8e9299;
+    }
+          .navbar{
+      opacity: 0.75;
+    }
+    footer{
+      background-color: #676a70;
+      margin: 0px 0px 0px 0px;
+    }
+    .fa{
+      padding: 15px;
+      font-size: 30px;
+      width: 65px;
+      text-align: center;
+      text-decoration: none;
+      margin: 3px 2px;
+    }
+    .fa:hover{
+      opacity: 0.7;
+    }
+    .fa-facebook{
+      background: #3B5998;
+      color: white;
+    }
+    .fa-instagram{
+      background: #125688;
+      color: white;
+    }
+    .fa-youtube{
+      background: #bb0000;
+      color: white;
+    }
+
+</style>
+<body>
+{% if session['username'] %}
+<script>
+  if (window.location.pathname == "/Login") {window.alert('Login Success');}
+</script>
+<div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="successLable" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="success">Login Success</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-lable="Close" id="bthidden">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+  </div>
+  </div>
+</div>
+{% endif %}
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <a class="navbar-brand" href="{{ url_for('index') }}">&nbsp;N.Maker Studio&nbsp;</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+        </li>
+
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">About</a>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="{{ url_for('About') }}">N.Maker</a>
+
+        <a class="dropdown-item" href="{{ url_for('Detail') }}">Course Detail</a>
+        </div>
+        </li>
+
+        <li class="nav-item">
+          {% if session['logged_in'] %}
+            <a class="nav-link" href="{{ url_for('oem') }}">OEM</a>
+            {% endif %}
+            {% if not session['logged_in'] %}
+            <a class="nav-link" href="{{ url_for('login') }}">OEM</a>
+            {% endif %}
+        </li>
+
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Course</a>
+        <div class="dropdown-menu">
+          {% if not session['logged_in'] %}
+          <a class="dropdown-item" href="{{ url_for('login') }}">Junior</a>
+          {% endif %}
+          
+          {% if session['logged_in'] %}
+          <a class="dropdown-item" href="{{ url_for('junior') }}">Junior</a>
+          {% endif %}
+
+          {% if not session['logged_in'] %}
+          <a class="dropdown-item" href="{{ url_for('login') }}">Senior</a>
+          {% endif %}
+
+          {% if session['logged_in'] %}
+          <a class="dropdown-item" href="{{ url_for('senior') }}">Senior</a>
+          {% endif %}
+        </div>
+    </li>
+      </ul>
+        <ul class="nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle Hello" data-toggle="dropdown" role="button" href="#" style="color:#dce0e8">
+                  <span style="color:#dce0e8">Hello {{username}}</span>
+                </a>
+                <div class="dropdown-menu">
+                    {% if session['logged_in'] %}
+                    {% if session['admin'] %}
+                    <a class="dropdown-item HelloItem" href="/AdminPage">Edit</a>
+                    <a class="dropdown-item HelloItem" href="/Logout">Logout</a>
+                    {% endif %}
+                    {% if not session['admin'] %}
+                    <a class="dropdown-item HelloItem" href="/Personal">Profile</a>
+                    <a class="dropdown-item HelloItem" href="/Logout">Logout</a>
+                    {% endif %}
+                    {% endif %}
+                    {% if not session['logged_in'] %}
+                    <a class="dropdown-item HelloItem" href="{{ url_for('login') }}">Login</a>
+                    <a class="dropdown-item HelloItem" href="{{ url_for('register') }}">Register</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{{ url_for('static', filename='maxresdefault (1).jpg') }}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{{ url_for('static', filename='maxresdefault.jpg') }}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{{ url_for('static', filename='maxresdefault (2).jpg') }}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<footer>
+  <div class="row">
+    <div class="col-sm-4">
+  <p>
+    <h4 style="color:#f7f9fc">Contact Us</h4>
+  </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+  <p style="color:#f7f9fc">
+    Kwun Tong, Hung To Road no.77 Milkyway Building flat,16 F/4
+  </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+    <p style="color:#f7f9fc">
+      Tel:9589 4236
+    </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+    <p style="color:#f7f9fc">
+      Email:nerv.maker@gmail.com
+    </p>
+    </div>
+    <div class="col-sm-3">
+      <a href="https://www.facebook.com/forchaunung/" class="fa fa-facebook"></a>
+      <a href="https://www.instagram.com/n.maker_studio/" class="fa fa-instagram"></a>
+      <a href="https://www.youtube.com/channel/UCFaVc-zX9Yj05FFuUJoO3-g" class="fa fa-youtube"></a>
+    </div>
+  </div> 
+</footer>
+</body>
+</html>

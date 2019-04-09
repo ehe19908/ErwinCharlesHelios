@@ -1,0 +1,171 @@
+{% extends 'Course.html' %}
+
+{% block head %}
+  <title>User Page</title>
+     <style>
+      body{
+            background-color: #8e9299;
+            text-align: center;
+          }
+      #table{
+            margin: auto;
+            width: 80%;
+            border: 1px solid black;
+            text-align: center;
+          }
+     </style>
+{% endblock %}
+
+{% block body %}
+
+<!----------------Change Password-------------------->
+
+<!--------------------------------------------------->
+<script>
+  if (window.location.pathname == "/Change") {window.alert('Password Changed');}
+</script>
+	<img src="{{icon}}" style="width: 200px; height: 200px;">
+	<h1>Name:{{username}}</h1>
+	<button class="btn btn-primary" data-toggle="modal" data-target="#m1">Change Password</button>
+	<div class="modal" id="m1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Edit Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/Change" method="POST">
+        	<div class="form-group">
+      <label for="password" style="color: white">Old Password:</label>
+      <input type="text" class="form-control" placeholder="Enter Old Password" id="opassword" name="password">
+  	</div>
+  	<div class="form-group">
+      <label for="npassword" style="color: white">New Password:</label>
+      <input type="text" class="form-control" placeholder="Enter New Password" id="newpassword" name="new">
+  	</div>
+  	<button type="submit" class="btn btn-primary">Confirm</button>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+<!------------------------Icon--------------------------->
+
+<!------------------------------------------------------->
+<button class="btn btn-primary" data-toggle="modal" data-target="#m">Upload Icon</button>
+	<div class="modal" id="m">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Change Icon</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/uploadicon" method="POST" enctype="multipart/form-data">
+  			<div class="form-group">
+      <label for="icon" style="color: white">New Icon:</label>
+      <input type="file" class="form-control" id="icon" name="uploadicon">
+  	</div>
+  	<button type="submit" class="btn btn-primary">Confirm</button>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<h5 style="text-align: center;">OEM Order</h5>
+<table id="table">
+    <tr>
+      <th style="width: 10%">Name</th>
+      <th style="width: 10%">Phone</th>
+      <th style="width: 10%">Email</th>
+      <th style="width: 10%">Pname</th>
+      <th style="width: 10%">PeferPrice</th>
+      <th style="width: 10%">Option</th>
+      <th style="width: 10%">Cancel</th>
+    </tr>
+</table>
+{% if line %}
+  <table id="table">
+    {% for i in line %}
+    <tr>
+    <td style="width: 10%">{{ i.Name }}</td>
+    <td style="width: 10%">{{ i.Phone }}</td>
+    <td style="width: 10%">{{ i.Email }}</td>
+    <td style="width: 10%">{{ i.Pname }}</td>
+    <td style="width: 10%">{{ i.Price }}</td>
+    <td style="width: 10%">{{ i.Option }}</td>
+    <td style="width: 10%">
+      <form action="/Del" method="POST">
+      <button class="btn btn-primary" type="submit" name="{{i.id|string}}">Delete Record</button> 
+      </form>
+    </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+<br>
+  <h5 style="text-align: center;">Junior Course</h5>
+    <table id="table">
+    <tr>
+      <th style="width: 10%">Name</th>
+      <th style="width: 10%">Participant</th>
+      <th style="width: 10%">Phone</th>
+      <th style="width: 10%">Email</th>
+      <th style="width: 10%">Time</th>
+      <th style="width: 10%">Option</th>
+      <th style="width: 10%">Payment</th>
+    </tr>
+    </table>
+  {% if line2 %}
+  <table id="table">
+    {% for i in line2 %}
+    <tr>
+    <td style="width: 10%">{{ i.Name }}</td>
+    <td style="width: 10%">{{ i.Part }}</td>
+    <td style="width: 10%">{{ i.Phone }}</td>
+    <td style="width: 10%">{{ i.Email }}</td>
+    <td style="width: 10%">{{ i.Time }}</td>
+    <td style="width: 10%">{{ i.Option }}</td>
+    <td style="width: 10%">{{ i.Payment }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+    <br>
+  <h5 style="text-align: center;">Senior Course</h5>
+    <table id="table">
+    <tr>
+      <th style="width: 10%">Name</th>
+      <th style="width: 10%">Participant</th>
+      <th style="width: 10%">Phone</th>
+      <th style="width: 10%">Email</th>
+      <th style="width: 10%">Time</th>
+      <th style="width: 10%">Option</th>
+      <th style="width: 10%">Payment</th>
+    </tr>
+    </table>
+  {% if line3 %}
+  <table id="table">
+    {% for i in line3 %}
+    <tr>
+    <td style="width: 10%">{{ i.Name }}</td>
+    <td style="width: 10%">{{ i.Part }}</td>
+    <td style="width: 10%">{{ i.Phone }}</td>
+    <td style="width: 10%">{{ i.Email }}</td>
+    <td style="width: 10%">{{ i.Time }}</td>
+    <td style="width: 10%">{{ i.Option }}</td>
+    <td style="width: 10%">{{ i.Payment }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+{% endblock %}

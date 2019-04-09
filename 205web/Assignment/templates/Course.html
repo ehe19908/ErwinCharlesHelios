@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/default-skin/default-skin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Bitter:400,700,400italic' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.0/photoswipe-ui-default.min.js"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">&nbsp;N.Maker Studio&nbsp;</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+  	</button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+      		<li class="nav-item">
+        		<a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+      	</li>
+          <li class="nav-item dropdown">
+      	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">About</a>
+          <div class="dropdown-menu">
+        <a class="dropdown-item" href="{{ url_for('About') }}">N.Maker</a>
+
+        <a class="dropdown-item" href="{{ url_for('Detail') }}">Course Detail</a>
+          </div>
+        </li>
+          <li class="nav-item">
+            {% if session['logged_in'] %}
+            <a class="nav-link" href="{{ url_for('oem') }}">OEM</a>
+            {% endif %}
+            {% if not session['logged_in'] %}
+            <a class="nav-link" href="{{ url_for('login') }}">OEM</a>
+            {% endif %}
+          </li>
+           <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Course</a>
+      <div class="dropdown-menu">
+                    {% if not session['logged_in'] %}
+        <a class="dropdown-item" href="{{ url_for('login') }}">Junior</a>
+          {% endif %}
+          
+          {% if session['logged_in'] %}
+        <a class="dropdown-item" href="{{ url_for('junior') }}">Junior</a>
+          {% endif %}
+
+          {% if not session['logged_in'] %}
+        <a class="dropdown-item" href="{{ url_for('login') }}">Senior</a>
+          {% endif %}
+
+          {% if session['logged_in'] %}
+        <a class="dropdown-item" href="{{ url_for('senior') }}">Senior</a>
+          {% endif %}
+                </div>
+    </li>
+    	</ul>
+        <ul class="nav">
+            <li class="nav-item dropdown show">
+                <a class="nav-link dropdown-toggle Hello" data-toggle="dropdown" role="button" style="color:#dce0e8" href="#">
+                  <span style="color:#dce0e8">Hello {{username}}</span>
+                </a>
+                <div class="dropdown-menu">
+                    {% if session['logged_in'] %}
+                    {% if session['admin'] %}
+                    <a class="dropdown-item HelloItem" href="/AdminPage">Edit</a>
+                    <a class="dropdown-item HelloItem" href="/Logout">Logout</a>
+                    {% endif %}
+                    {% if not session['admin'] %}
+                    <a class="dropdown-item HelloItem" href="/Personal">Profile</a>
+                    <a class="dropdown-item HelloItem" href="/Logout">Logout</a>
+                    {% endif %}
+                    {% endif %}
+                    {% if not session['logged_in'] %}
+                    <a class="dropdown-item HelloItem" href="{{ url_for('login') }}">Login</a>
+                    <a class="dropdown-item HelloItem" href="{{ url_for('register') }}">Register</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+</html>

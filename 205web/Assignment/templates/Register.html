@@ -1,0 +1,59 @@
+{% extends 'Course.html' %}
+
+{% block head %}
+<title>Register</title>
+  <style>
+    body{
+      background-color: #8e9299; 
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+<script>
+  if (window.location.pathname == "/Register") {window.alert('Success Register');}
+  else if (window.location.pathname == "/RegError") {window.alert('Invalid Data Format');}
+</script>
+<div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="successLable" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="success">Success Register</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-lable="Close" id="bthidden">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+  </div>
+  </div>
+</div>
+
+	<div class="container">
+	 <form action="/Register" method="POST" style="width:30%;margin: auto;">
+      <h3 style= "color: white">Register</h3>
+    <div class="form-group">
+      <label for="username" style="color: white">User Name:</label>
+      <input type="text" class="form-control" placeholder="Enter Name with in 15 string" id="username" name="username">
+    </div>
+
+    <div class="form-group">
+      <label for="password" style="color: white">Password:</label>
+      <input type="Password" class="form-control" placeholder="Enter Password with in 10 string" id="password" name="password">
+    </div>
+
+     <div class="form-group">
+      <label for="Email" style="color: white">Email address:</label>
+      <input type="text" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+    </div>
+
+    <div class="form-group">
+      <label for="phoneno" style="color: white">PhoneNum:</label>
+      <input type="text" class="form-control" placeholder="Enter PhoneNum" id="phoneno" name="phoneno">
+    </div>
+    <br>
+
+     </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </fieldset>
+  </form>
+</div>
+{% endblock %}

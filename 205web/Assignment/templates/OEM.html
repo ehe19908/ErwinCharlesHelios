@@ -1,0 +1,64 @@
+{% extends 'Course.html' %}
+
+{% block head %}
+<title>Original Equipment Manufacturer</title>
+    <style>
+      body{
+        {{bg}};
+        background-repeat: no-repeat;
+        background-size: 100% 120%;
+      }
+    </style>
+{% endblock %}
+
+{% block body %}
+<script>
+  if (window.location.pathname == "/OEMF") {window.alert('Order Success');}
+</script>
+<div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="successLable" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="success">Order Success</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-lable="Close" id="bthidden">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    
+    <form action="/OEMF" method="POST" style="width:70%;margin: auto;">
+      <h3 style= "color: white">Original Equipment Manufacturer</h3>
+    <div class="form-group">
+      <label for="name" style="color: white">Name:</label>
+      <input style="opacity: 0.5" type="text" class="form-control" placeholder="Enter Name" id="name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="phoneno" style="color: white">PhoneNo:</label>
+      <input style="opacity: 0.5" type="text" class="form-control" placeholder="Enter PhoneNo" id="phoneno" name="phoneno">
+    </div>
+    <div class="form-group">
+      <label for="Email1" style="color: white">Email address:</label>
+      <input style="opacity: 0.5" type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div class="form-group">
+      <label for="pname" style="color: white">Product:</label>
+      <input style="opacity: 0.5" type="text" class="form-control" placeholder="Enter Product Name" id="pname" name="Pname">
+    </div>
+    <div class="form-group">
+      <label for="price" style="color: white">Pefer Price:</label>
+      <input style="opacity: 0.5" type="text" class="form-control" placeholder="Enter Price" id="price" name="Price">
+    </div>
+       <div class="form-group">
+      <label for="Option" style="color: white">Other Requirements</label>
+      <textarea style="opacity: 0.5" class="form-control" id="Option" rows="3" name="Option"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Order</button>
+    </form>
+</div>
+</div>
+{% endblock %}

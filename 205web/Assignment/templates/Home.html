@@ -51,6 +51,9 @@
 
 </style>
 <body>
+<!------------------------Modal---------------------------->
+
+<!--------------------------------------------------------->
 {% if session['username'] %}
 <script>
   if (window.location.pathname == "/Login") {window.alert('Login Success');}
@@ -68,7 +71,16 @@
   </div>
 </div>
 {% endif %}
+<script>
+  if (window.location.pathname == "/Change") {window.alert('Password Changed');}
+</script>
+<script>
+  if (window.location.pathname == "/Forget") {window.alert('Email send , please check');}
+</script>
 
+<!------------------------Navbar---------------------------->
+
+<!---------------------------------------------------------->
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <a class="navbar-brand" href="{{ url_for('index') }}">&nbsp;N.Maker Studio&nbsp;</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">

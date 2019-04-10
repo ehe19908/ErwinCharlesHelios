@@ -38,7 +38,6 @@ def index():
 	if not session.get('logged_in'):
 		return render_template('Home.html', username = 'Guest')
 	else:
-		print(session['logged_in'])
 		return render_template('Home.html', username = session['username'])
 
 ###################################################################################################
@@ -134,8 +133,10 @@ def uploadi():
 	        if 'uploadimage' not in request.files:
 	            return render_template('Error.html')
 	        file = request.files['uploadimage']
-	        if file.filename == '':
-	            return render_template('Error2.html')
+	        if file.filename == "":
+	            return ImageError()
+	        if name == "":
+	        	return ImageError()
 	        if file and allowed_file(file.filename):
 	        	Session = sessionmaker(bind=engine)
 
@@ -146,7 +147,7 @@ def uploadi():
 
 		        filename = str(name) + '.' + secure_filename(file.filename).split('.')[-1]
 		        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		        return redirect(url_for('AdminPage'))
+		        return AdminPage()
 ###################################################################################################
 
 #Course
@@ -349,7 +350,7 @@ def Register():
 		elif record2:
 			return Error2()
 		elif record3:
-			return Erroe3()
+			return Error3()
 		elif record4:
 			return Error4()
 		elif record5:
@@ -434,22 +435,16 @@ def Forget():
 @app.route('/uploadicon', methods=['GET', 'POST'])
 def uploadicon():
     if request.method == 'POST':
-    	print('iconfail')
     	file = request.files['uploadicon']
-    	print('iconfail2')
     	if 'uploadicon' in request.files:
     		file = request.files['uploadicon']
     		if file.filename == '':
     			return render_template('UserPage.html')
     		elif file and allowed_file(file.filename):
-    			print('iconfail3')
     			filename = str(session['username']) + '.' + secure_filename(file.filename).split('.')[-1]
-    			print('iconfail4')
     			file.save(os.path.join(app.config['UPLOAD_FOLDER2'], filename))
-    			print('iconfail5')
     			return redirect(url_for('Personal'))
     		else:
-    			print('iconfail6')
     			return render_template('UserPage.html', username = session['username'])
 ###################################################################################################
 
@@ -493,7 +488,6 @@ def Personal():
 #Edit Pwd
 
 ###################################################################################################
-
 @app.route('/Change', methods = ['POST', 'GET'])
 def Change():
 	if request.method == 'POST':
@@ -510,17 +504,24 @@ def Change():
 		record2 = line2.first()
 
 		if record:
-			if record2:
-				return redirect(url_for("index"))
-			elif npassword == "":
-				return redirect(url_for("index"))
-			else:
-				S.query(User).filter(User.Username.in_([change])).first().Password = npassword
+			if not record2:
+				if npassword != "":
+					if password != "":
+						if npassword == password:
+					 		return Repeat()
+						else:
+							S.query(User).filter(User.Username.in_([change])).first().Password = npassword
 
-				S.commit()
-				return redirect(url_for("index"))
+							S.commit()
+							return index()
+					else:
+						return ChangeError()
+				else:
+					return ChangeError()
+			else:
+				return ChangeError()
 		else:
-			return redirect(url_for("index"))
+			return ChangeError()
 ###################################################################################################
 
 #Admin
@@ -609,7 +610,7 @@ def Error9():
 
 @app.route('/Error10')
 def Error10():
-	bg = "background-image: url("+url_for('static', filename='wing2.jpg')+")"
+	bg = "background-image: url("+url_for('static', filename='baba2.jpg')+")"
 	if not session.get('logged_in'):
 		return render_template('Error10.html', username = 'Guest', bg=bg)
 	else:
@@ -622,7 +623,61 @@ def LoginError():
 	else:
 		return render_template('LoginError.html', username = session['username'])
 
+@app.route('/ChangeError')
+def ChangeError():
+	Session = sessionmaker(bind=engine)
 
+	S = Session()
+	line = S.query(OEM).filter(OEM.Name.in_([session['username']])).all()
+	line2 = S.query(JuniorForm).filter(JuniorForm.Name.in_([session['username']])).all()
+	line3 = S.query(SeniorForm).filter(SeniorForm.Name.in_([session['username']])).all()
+	if Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.png').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.png'
+	elif Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.jpg').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.jpg'
+	elif Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.jpeg').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.jpeg'
+	else:
+		icon = '/static/upload/icon/' + 'Defaulticon.png'
+	if not session.get('logged_in'):
+		return render_template('ChangeError.html', username = 'Guest')
+	else:
+		return render_template('ChangeError.html', line=line, line2=line2, line3=line3, username = session['username'], icon = icon)
+
+@app.route('/Repeat')
+def Repeat():
+	Session = sessionmaker(bind=engine)
+
+	S = Session()
+	line = S.query(OEM).filter(OEM.Name.in_([session['username']])).all()
+	line2 = S.query(JuniorForm).filter(JuniorForm.Name.in_([session['username']])).all()
+	line3 = S.query(SeniorForm).filter(SeniorForm.Name.in_([session['username']])).all()
+	if Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.png').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.png'
+	elif Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.jpg').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.jpg'
+	elif Path(os.getcwd() + '/static/upload/icon/' + str(session['username']) + '.jpeg').exists():
+		icon = '/static/upload/icon/' + str(session['username']) + '.jpeg'
+	else:
+		icon = '/static/upload/icon/' + 'Defaulticon.png'
+	if not session.get('logged_in'):
+		return render_template('Repeat.html', username = 'Guest')
+	else:
+		return render_template('Repeat.html', line=line, line2=line2, line3=line3, username = session['username'], icon = icon)
+
+@app.route('/ImageError')
+def ImageError():
+		Session = sessionmaker(bind=engine)
+
+		S = Session()
+		line = S.query(JuniorForm).all()
+		line2 = S.query(SeniorForm).all()
+		line3 = S.query(OEM).all()
+
+		if not session.get('logged_in'):
+			return render_template('ImageError.html', username = 'Guest')
+		else:
+			return render_template('ImageError.html',line=line,line2=line2,line3=line3, username = session['username'])
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
